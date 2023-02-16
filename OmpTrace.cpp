@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
     // printf(omp_get_num_threads());
 
     for (int m = 0; m < WIDTH; ++m) {
-#pragma omp parallel for
+#pragma omp parallel for // schedule()
         for (int n = 0; n < HEIGHT; ++n) {
             // printf("%d ", omp_get_thread_num());
 
