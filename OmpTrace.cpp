@@ -22,12 +22,66 @@ int main(int argc, char **argv) {
 
     img.SetSize(WIDTH, HEIGHT);
 
-    for (int m = 0; m < WIDTH; ++m) {
-        for (int n = 0; n < HEIGHT; ++n) {
-            pixel.Blue = 192;
-            pixel.Green = 255;
-            pixel.Red = 192;
+    // omp_get_num_thread()
+    // omp_set_num_threads()
+    // #pragma omp parallel for
+    omp_set_num_threads(atoi(argv[2]));
+    // printf(omp_get_num_threads());
 
+    for (int m = 0; m < WIDTH; ++m) {
+#pragma omp parallel for
+        for (int n = 0; n < HEIGHT; ++n) {
+            // printf("%d ", omp_get_thread_num());
+
+            // 0-Red, 1-Green, 2-Blue, 3- Yellow, 4-Magenta, 5-Cyan, 6-White, 7-Black
+            switch (omp_get_thread_num()) {
+                case 0:
+                    pixel.Red = 255;
+                    pixel.Green = 0;
+                    pixel.Blue = 0;
+                    break;
+                case 1:
+                    pixel.Red = 0;
+                    pixel.Green = 255;
+                    pixel.Blue = 0;
+                    break;
+                case 2:
+                    pixel.Blue = 255;
+                    pixel.Green = 0;
+                    pixel.Red = 0;
+                    break;
+                case 3:
+                    pixel.Red = 255;
+                    pixel.Green = 255;
+                    pixel.Blue = 0;
+                    break;
+                case 4:
+                    pixel.Red = 255;
+                    pixel.Green = 0;
+                    pixel.Blue = 255;
+                    break;
+                case 5:
+                    pixel.Red = 0;
+                    pixel.Green = 255;
+                    pixel.Blue = 255;
+                    break;
+                case 6:
+                    pixel.Red = 255;
+                    pixel.Green = 255;
+                    pixel.Blue = 255;
+                    break;
+                case 7:
+                    pixel.Red = 0;
+                    pixel.Green = 0;
+                    pixel.Blue = 0;
+                    break;
+                default:
+                    pixel.Red = 192;
+                    pixel.Green = 255;
+                    pixel.Blue = 192;
+                    break;
+
+            }
             img.SetPixel(m, n, pixel);
         }
     }
